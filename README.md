@@ -2,7 +2,7 @@
 ## Prequesite
 - Using Linux or Unix is requirement for backend
 - Our compiler is clang, instead of gcc
-- IDE: CLion for debugging
+- Suggest using VSCode, or your most familiar IDE 
 
 ## How to run
 ```sh
@@ -65,5 +65,31 @@ backend
 |---CMakeLists.txt
 |---build
 ```
-
+#### First build
 - First step to build, we need `build` directory in same path of your `CmakeLists.txt`, checkout the [how to run](#how-to-run)
+- In the first build, you should go to every library and build it your own just like [how-to-run](#how-to-run)
+- Each `lib` contains a `CMakeLists.txt` file and when you make changes in that file, go to `build/` folder of that `lib` then rebuild using `cmake ../`
+- If you just make change to the source code, then running `make` in `build/` is enough
+- Notice that if you make change to multiple libraries, you must rebuild every libararies in order to run it.
+
+
+
+## VSCode settings
+If you're using VSCode in Linux (or MacOS), you should have `.vscode/c_cpp_properties.json` like this:
+```json
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/lib/**/include"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/clang",
+            "intelliSenseMode": "linux-clang-x64"
+        }
+    ],
+    "version": 4
+}
+```
