@@ -1,14 +1,24 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(Kasino_server C)
-
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_COMPILER clang)
 set(CMAKE_C_FLAGS "-Wall")
 
-# file(GLOB_RECURSE SOURCES "src/*.c")
+project(Kasino_server C) # SET PROJECT NAME HERE, start with Kasino_{name}
 
-add_executable(${PROJECT_NAME} "src/main.c")
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/lib/poker/build/libKasino_poker.a)
+file(GLOB_RECURSE SOURCES "src/*.c")
+
+set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib) # SET LIB DIR HERE, this is relative directory of "lib" folder from this Cmake dir 
+list(APPEND ALL_LIBS card pokergame) # APPEND LIB HERE (directory name of lib)
+
+
+foreach(LIB IN LISTS ALL_LIBS)
+    list(APPEND ALL_INCLUDES "${LIB_DIR}/${LIB}/include")
+    list(APPEND ALL_LIBRARIES "${LIB_DIR}/${LIB}/build/libKasino_${LIB}.a")
+endforeach()
+
+add_executable(${PROJECT_NAME} ${SOURCES})
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${ALL_INCLUDES})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${ALL_LIBRARIES})
